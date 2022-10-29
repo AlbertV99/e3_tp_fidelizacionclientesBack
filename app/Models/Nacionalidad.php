@@ -4,10 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class tipo_documentos extends Model{
-
+class Nacionalidad extends Model{
     protected $fillable =[
-        'tipo_doc'
+        'nacionalidad'
     ];
-
 }
