@@ -15,14 +15,13 @@ class ClienteController extends Controller{
      * @return \Illuminate\Http\Response
      */
 
-
     public static function listarPanel($pag=0,$busqueda=""){
         $c_reg_panel = env('CANT_VALORES_PANEL');
         $c_paginas = ceil(cliente::count()/$c_reg_panel);
         $salto = $pag*$c_reg_panel;
         $query = cliente::select("cliente.nombre","cliente.apellido","cliente.mail","cliente.telefono","cliente.fecha_nacimiento","cliente.nro_doc","nacionalidad.nacionalidad","tipo_documento.tipo_doc")
         ->join("nacionalidad","cliente.id_nacionalidad","nacionalidad.id")
-        ->join("tipo_documento","cliente.id_tipo_doc","tipo_documento.tipo_doc");
+        ->join("tipo_documento","cliente.id_tipo_doc","tipo_documento.id");
 
         /*User::select('users.nameUser', 'categories.nameCategory')
                 ->join('categories', 'users.idUser', '=', 'categories.user_id')
