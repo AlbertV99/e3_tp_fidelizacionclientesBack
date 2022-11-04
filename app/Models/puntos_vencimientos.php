@@ -13,4 +13,5 @@ class puntos_vencimientos extends Model{
         'fecha_fin',
         'duracion'
     ];
+    public $timestamps = false;
 }
