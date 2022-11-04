@@ -20,9 +20,9 @@ $router->get('/', function () use ($router) {
 
 //LISTAR DATOS
 $router->get('/listar/cliente/{pag}', ['uses'=>'ClienteController@listarPanel']);
-$router->get('/listar/conceptopuntos', function () use ($router) {
-    return "LISTAR PUNTOS";
-});
+
+$router->get('/listar/conceptopuntos/{pag}', ['uses'=>'ConceptoPuntoController@listarPanel']);
+
 $router->get('/listar/bolsapuntos', function () use ($router) {
     return "LISTAR BOLSA";
 });
@@ -30,9 +30,7 @@ $router->get('/listar/bolsapuntos', function () use ($router) {
 
 //INSERCION DE DATOS
 $router->post('/nuevo/cliente', ['uses'=>'ClienteController@nuevo']);
-$router->post('/nuevo/punto', function () use ($router) {
-    return "NUEVO PUNTO ";
-});
+$router->post('/nuevo/punto', ['uses'=>'ConceptoPuntoController@nuevo']);
 $router->post('/nuevo/bolsa', function () use ($router) {
     return "NUEVA BOLSA";
 });
@@ -40,9 +38,7 @@ $router->post('/nuevo/bolsa', function () use ($router) {
 
 //MODIFICACION DE DATOS
 $router->put('/modif/cliente/{id}', ['uses'=>'ClienteController@modificar']);
-$router->put('/modif/punto', function () use ($router) {
-    return "MODIF PUNTO ";
-});
+$router->put('/modif/punto/{id}', ['uses'=>'ConceptoPuntoController@modificar']);
 $router->put('/modif/bolsa', function () use ($router) {
     return "MODIF BOLSA";
 });
