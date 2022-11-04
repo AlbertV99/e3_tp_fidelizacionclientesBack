@@ -26,6 +26,8 @@ $router->get('/listar/cliente/{pag}', ['uses'=>'ClienteController@listarPanel'])
 
 $router->get('/listar/conceptopuntos/{pag}', ['uses'=>'ConceptoPuntoController@listarPanel']);
 
+$router->get('/listar/vencimientopuntos/{pag}', ['uses'=>'PuntosVencimientosController@listarPanel']);
+
 $router->get('/listar/bolsapuntos', function () use ($router) {
     return "LISTAR BOLSA";
 });
@@ -36,6 +38,7 @@ $router->get('/listar/reglaspunto/{pag}', ['uses'=>'ReglasPuntoController@listar
 //INSERCION DE DATOS
 $router->post('/nuevo/cliente', ['uses'=>'ClienteController@nuevo']);
 $router->post('/nuevo/punto', ['uses'=>'ConceptoPuntoController@nuevo']);
+$router->post('/nuevo/vencimientopunto', ['uses'=>'PuntosVencimientosController@nuevo']);
 $router->post('/nuevo/bolsa', function () use ($router) {
     return "NUEVA BOLSA";
 });
@@ -44,6 +47,7 @@ $router->post('/nuevo/reglaspunto', ['uses'=>'ReglasPuntoController@nuevo']);
 //MODIFICACION DE DATOS
 $router->put('/modif/cliente/{id}', ['uses'=>'ClienteController@modificar']);
 $router->put('/modif/punto/{id}', ['uses'=>'ConceptoPuntoController@modificar']);
+$router->put('/modif/vencimientopunto/{id}', ['uses'=>'PuntosVencimientosController@modificar']);
 $router->put('/modif/bolsa', function () use ($router) {
     return "MODIF BOLSA";
 });
@@ -51,9 +55,8 @@ $router->put('/modif/reglaspunto/{id}', ['uses'=>'ReglasPuntoController@modifica
 
 //ELIMINACION DE DATOS
 $router->delete('/eliminar/cliente/{id}', ['uses'=>'ClienteController@eliminar']);
-$router->delete('/eliminar/punto', function () use ($router) {
-    return "ELIMINAR PUNTO ";
-});
+$router->delete('/eliminar/punto/{id}', ['uses'=>'ConceptoPuntoController@eliminar']);
+$router->delete('/eliminar/vencimientopunto/{id}', ['uses'=>'PuntosVencimientosController@eliminar']);
 $router->delete('/eliminar/bolsa', function () use ($router) {
     return "ELIMINAR BOLSA";
 });
