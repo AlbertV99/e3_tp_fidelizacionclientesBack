@@ -19,7 +19,7 @@ class ClienteController extends Controller{
         $c_reg_panel = env('CANT_VALORES_PANEL');
         $c_paginas = ceil(cliente::count()/$c_reg_panel);
         $salto = $pag*$c_reg_panel;
-        $query = cliente::select("cliente.nombre","cliente.apellido","cliente.mail","cliente.telefono","cliente.fecha_nacimiento","cliente.nro_doc","nacionalidad.nacionalidad","tipo_documento.tipo_doc")
+        $query = cliente::select("cliente.id","cliente.nombre","cliente.apellido","cliente.mail","cliente.telefono","cliente.fecha_nacimiento","cliente.nro_doc","nacionalidad.nacionalidad","tipo_documento.tipo_doc")
         ->join("nacionalidad","cliente.id_nacionalidad","nacionalidad.id")
         ->join("tipo_documento","cliente.id_tipo_doc","tipo_documento.id");
 
@@ -32,13 +32,6 @@ class ClienteController extends Controller{
         "pagina_actual"=>$pag,
         "cantidad_paginas"=>$c_paginas,
         "datos"=>$query->get()];
-
-
-
-
-
-
-
     }
 
     /**
@@ -47,28 +40,27 @@ class ClienteController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function nuevo(Request $peticion){
-
         try {
             $campos = $this->validate($peticion,[
                 'nombre'=>'required|string',
                 'apellido'=>'required|string',
                 'mail'=>'required|string',
                 'telefono'=>'required|string',
-                'fecha_nacimiento'=>'required|string',
+                'fecha_nacimiento'=>'required|date',
                 'id_tipo_doc'=>'required|string',
                 'id_nacionalidad'=>'required|string',
                 'nro_doc'=>'required|string'
             ]);
             $cliente = cliente::create($campos);
+            return ["cod"=>"00","msg"=>"todo correcto"];
         } catch (\Illuminate\Validation\ValidationException $e){
             return ["cod"=>"06","msg"=>"Error al insertar los datos","errores"=>[$e->errors() ]];
         }
         catch (\Exception $e) {
-            return ["cod"=>"05","msg"=>"Error al insertar los datos"];
+            return ["cod"=>"05","msg"=>"Error al insertar los datos","errores"=>[$e->getMessage() ]];
         }
-        return ["cod"=>"00","msg"=>"todo correcto"];
-
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -96,6 +88,18 @@ class ClienteController extends Controller{
         }
         catch (\Exception $e) {
             return ["cod"=>"05","msg"=>"Error al actualizar los datos"];
+        }
+    }
+
+    public function eliminar($id){
+
+        try {
+            $usuario = cliente::where("id",$id);
+            $usuario->delete();
+
+            return ["cod"=>"00","msg"=>"todo correcto"];
+        } catch (\Exception $e) {
+            return ["cod"=>"08","msg"=>"Error al eliminar el registro","errores"=>[$e->getMessage() ]];
         }
     }
 

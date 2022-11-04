@@ -7,6 +7,18 @@ use Illuminate\Http\Request;
 
 class NacionalidadController extends Controller
 {
+    public static function listaDesplegable($busqueda=""){
+        $c_reg_lista = env('CANT_VALORES_LISTA');
+        $query = Nacionalidad::select("nacionalidad.id","nacionalidad.nacionalidad")->limit($c_reg_lista);
+
+        /*User::select('users.nameUser', 'categories.nameCategory')
+                ->join('categories', 'users.idUser', '=', 'categories.user_id')
+                ->get();*/
+
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "datos"=>$query->get()];
+    }
     /**
      * Display a listing of the resource.
      *

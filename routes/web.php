@@ -17,6 +17,9 @@ $router->get('/', function () use ($router) {
     return "albert test";
 });
 
+//LISTAS DESPLEGABLES
+$router->get('/listar/nacionalidad[/{busqueda}]', ['uses'=>'NacionalidadController@listaDesplegable']);
+
 
 //LISTAR DATOS
 $router->get('/listar/cliente/{pag}', ['uses'=>'ClienteController@listarPanel']);
@@ -48,9 +51,7 @@ $router->put('/modif/bolsa', function () use ($router) {
 });
 
 //ELIMINACION DE DATOS
-$router->delete('/eliminar/cliente', function () use ($router) {
-    return "ELIMINAR CLIENTE";
-});
+$router->delete('/eliminar/cliente/{id}', ['uses'=>'ClienteController@eliminar']);
 $router->delete('/eliminar/punto', function () use ($router) {
     return "ELIMINAR PUNTO ";
 });
