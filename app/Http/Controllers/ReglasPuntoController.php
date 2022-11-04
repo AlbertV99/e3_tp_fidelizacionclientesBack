@@ -7,14 +7,25 @@ use Illuminate\Http\Request;
 
 class ReglasPuntoController extends Controller
 {
+      // private $c_reg_lista = env('CANT_VALORES_PANEL');
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+
+    public static function listarPanel($pag=0,$busqueda=""){
+        $c_reg_panel = env('CANT_VALORES_PANEL');
+        $c_paginas = ceil(reglas_punto::count()/$c_reg_panel);
+        $salto = $pag*$c_reg_panel;
+        $query = reglas_punto::select("reglas_punto.id","reglas_punto.limite_inferior","reglas_punto.limite_superior","reglas_punto.monto_equivalencia");
+
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "pagina_actual"=>$pag,
+        "cantidad_paginas"=>$c_paginas,
+        "datos"=>$query->get()];
+
     }
 
     /**
@@ -22,9 +33,23 @@ class ReglasPuntoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function nuevo(Request $peticion){
+
+        try {
+            $campos = $this->validate($peticion,[
+                'limite_inferior'=>'required|integer',
+                'limite_superior'=>'required|integer',
+                'monto_equivalencia'=>'required|integer'
+            ]);
+            $reglas_punto = reglas_punto::create($campos);
+        } catch (\Illuminate\Validation\ValidationException $e){
+            return ["cod"=>"06","msg"=>"Error al insertar los datos","errores"=>[$e->errors() ]];
+        }
+        catch (\Exception $e) {
+            return ["cod"=>"05","msg"=>"Error al insertar los datos"];
+        }
+        return ["cod"=>"00","msg"=>"todo correcto"];
+
     }
 
     /**
@@ -33,18 +58,31 @@ class ReglasPuntoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function modificar(Request $peticion,$id){
+        try {
+            $campos = $this->validate($peticion,[
+                'limite_inferior'=>'required|integer',
+                'limite_superior'=>'required|integer',
+                'monto_equivalencia'=>'required|integer'
+            ]);
+            $reglas_punto = reglas_punto::where("id",$id);
+            $reglas_punto->update($campos);
+            return ["cod"=>"00","msg"=>"todo correcto"];
+        } catch (\Illuminate\Validation\ValidationException $e){
+            return ["cod"=>"06","msg"=>"Error validando los datos","errores"=>[$e->errors() ]];
+        }
+        catch (\Exception $e) {
+            return ["cod"=>"05","msg"=>"Error al actualizar los datos"];
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\reglas_punto  $reglas_punto
+     * @param  \App\Models\cliente  $reglas_punto
      * @return \Illuminate\Http\Response
      */
-    public function show(reglas_punto $reglas_punto)
+    public function show(cliente $reglas_punto)
     {
         //
     }
@@ -52,10 +90,10 @@ class ReglasPuntoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\reglas_punto  $reglas_punto
+     * @param  \App\Models\cliente  $reglas_punto
      * @return \Illuminate\Http\Response
      */
-    public function edit(reglas_punto $reglas_punto)
+    public function edit(cliente $reglas_punto)
     {
         //
     }
@@ -64,10 +102,10 @@ class ReglasPuntoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\reglas_punto  $reglas_punto
+     * @param  \App\Models\cliente  $reglas_punto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, reglas_punto $reglas_punto)
+    public function update(Request $request, cliente $reglas_punto)
     {
         //
     }
@@ -75,10 +113,10 @@ class ReglasPuntoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\reglas_punto  $reglas_punto
+     * @param  \App\Models\cliente  $reglas_punto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(reglas_punto $reglas_punto)
+    public function destroy(cliente $reglas_punto)
     {
         //
     }
