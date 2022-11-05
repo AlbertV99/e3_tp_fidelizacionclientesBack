@@ -47,13 +47,9 @@ $router->post('/nuevo/bolsa', function () use ($router) {
     return "NUEVA BOLSA";
 });
 $router->post('/nuevo/reglaspunto', ['uses'=>'ReglasPuntoController@nuevo']);
-<<<<<<< HEAD
-$router->post('/nuevo/usopunto', ['uses'=>'UsoPuntoCabController@nuevo']);
 
-
-=======
 $router->post('/nuevo/bolsaspunto', ['uses'=>'BolsasPuntoController@nuevo']);
->>>>>>> 7e0182548ec6fc289e4679aa5f6fdb7187d29286
+$router->post('/nuevo/usopunto', ['uses'=>'UsoPuntoCabController@nuevo']);
 
 //MODIFICACION DE DATOS
 $router->put('/modif/cliente/{id}', ['uses'=>'ClienteController@modificar']);
