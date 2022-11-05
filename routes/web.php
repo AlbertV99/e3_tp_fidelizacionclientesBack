@@ -31,6 +31,9 @@ $router->get('/listar/bolsapuntos', function () use ($router) {
 });
 $router->get('/listar/reglaspunto/{pag}', ['uses'=>'ReglasPuntoController@listarPanel']);
 
+$router->get('/listar/usopunto/{pag}', ['uses'=>'UsoPuntoCabController@listarPanel']);
+
+
 
 
 //INSERCION DE DATOS
@@ -40,6 +43,9 @@ $router->post('/nuevo/bolsa', function () use ($router) {
     return "NUEVA BOLSA";
 });
 $router->post('/nuevo/reglaspunto', ['uses'=>'ReglasPuntoController@nuevo']);
+$router->post('/nuevo/usopunto', ['uses'=>'UsoPuntoCabController@nuevo']);
+
+
 
 //MODIFICACION DE DATOS
 $router->put('/modif/cliente/{id}', ['uses'=>'ClienteController@modificar']);
@@ -48,6 +54,9 @@ $router->put('/modif/bolsa', function () use ($router) {
     return "MODIF BOLSA";
 });
 $router->put('/modif/reglaspunto/{id}', ['uses'=>'ReglasPuntoController@modificar']);
+
+
+
 
 //ELIMINACION DE DATOS
 $router->delete('/eliminar/cliente/{id}', ['uses'=>'ClienteController@eliminar']);
