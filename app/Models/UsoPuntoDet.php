@@ -17,7 +17,7 @@ class UsoPuntoDet extends Model{
     public function cabecera(){
         return $this->belongsTo(UsoPuntoCab::class , "id_uso_punto");
     }
-    // public function bolsa(){
-    //     return $this->belongsTo(Bolsa::class , "id_uso_punto");
-    // }
+    public function bolsa(){
+        return $this->belongsTo(bolsas_punto::class , "id_bolsa");
+    }
 }

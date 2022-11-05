@@ -19,4 +19,7 @@ class bolsas_punto extends Model
         'monto_saldo'
 
     ];
+    public function usoPuntos(){
+        return $this->hasMany(UsoPuntoDet::class,"id_bolsa");
+    }
 }
