@@ -76,6 +76,18 @@ class ReglasPuntoController extends Controller
         }
     }
 
+    public function eliminar($id){
+
+        try {
+            $usuario = reglas_punto::where("id",$id);
+            $usuario->delete();
+
+            return ["cod"=>"00","msg"=>"todo correcto"];
+        } catch (\Exception $e) {
+            return ["cod"=>"08","msg"=>"Error al eliminar el registro","errores"=>[$e->getMessage() ]];
+        }
+    }
+
     /**
      * Display the specified resource.
      *
