@@ -79,3 +79,4 @@ $router->delete('/eliminar/bolsaspunto/{id}', ['uses'=>'BolsasPuntoController@el
 
 //REPORTES
 $router->get('/reporte/bolsaspunto/inf/{inferior}[/sup/{superior}]', ['uses'=>'BolsasPuntoController@listarrango']);
+$router->get('/reporte/reglaspunto/{monto}', ['uses'=>'ReglasPuntoController@devolverpunto']);
