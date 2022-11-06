@@ -14,6 +14,19 @@ class ClienteController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
+    public function  listar_cliente_vencido($dias){
+        $fecha_actual= date("Y-m-d");
+        $calculo_fecha = date("Y-m-d",strtotime($fecha_actual."+ ".$dias." days"));
+        $query = cliente::select("cliente.id","cliente.nombre","cliente.apellido", "bolsas_punto.puntos_saldo", "cliente.mail","cliente.telefono","cliente.fecha_nacimiento","cliente.nro_doc","nacionalidad.nacionalidad","tipo_documento.tipo_doc")
+        ->join("bolsas_punto", "bolsas_punto.id_cliente", "cliente.id")
+        ->join("nacionalidad","cliente.id_nacionalidad","nacionalidad.id")
+        ->join("tipo_documento","cliente.id_tipo_doc","tipo_documento.id")
+        ->where("bolsas_punto.fecha_caducidad" , '=', $calculo_fecha);
+        
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "datos"=>$query->get()];
+    }
 
     public static function listarPanel($pag=0,$busqueda=""){
         $c_reg_panel = env('CANT_VALORES_PANEL');

@@ -28,10 +28,8 @@ $router->get('/listar/conceptopuntos/{pag}', ['uses'=>'ConceptoPuntoController@l
 
 $router->get('/listar/vencimientopuntos/{pag}', ['uses'=>'PuntosVencimientosController@listarPanel']);
 
-$router->get('/listar/bolsapuntos', function () use ($router) {
-    return "LISTAR BOLSA";
-});
 $router->get('/listar/reglaspunto/{pag}', ['uses'=>'ReglasPuntoController@listarPanel']);
+
 $router->get('/listar/bolsaspunto/{pag}', ['uses'=>'BolsasPuntoController@listarPanel']);
 
 $router->get('/listar/usopunto/{pag}', ['uses'=>'UsoPuntoCabController@listarPanel']);
@@ -78,11 +76,12 @@ $router->delete('/eliminar/bolsaspunto/{id}', ['uses'=>'BolsasPuntoController@el
 
 
 //REPORTES
-$router->get('/reporte/bolsaspunto/inf/{inferior}[/sup/{superior}]', ['uses'=>'BolsasPuntoController@listarrango']);
+$router->get('/reporte/bolsaspunto/inf/{rango_inferior}[/sup/{rango_superior}]', ['uses'=>'BolsasPuntoController@listar_bolsa_punto_rango']);
 $router->get('/reporte/reglaspunto/{monto}', ['uses'=>'ReglasPuntoController@devolverpunto']);
 $router->get('/reporte/usopuntocab/cli/{id}', ['uses'=>'UsoPuntoCabController@listarusopuntoid']);
 $router->get('/reporte/usopuntocab/concep/{concepto}', ['uses'=>'UsoPuntoCabController@listarusopuntoconcepto']);
 $router->get('/reporte/usopuntocab/fech/{fecha}', ['uses'=>'UsoPuntoCabController@listarusopuntofecha']);
-
+$router->get('/reporte/bolsapuntos/{id}', ['uses'=>'BolsasPuntoController@listar_bolsa_punto_cliente']);
+$router->get('/reporte/cliente/{dias}', ['uses'=>'ClienteController@listar_cliente_vencido']);
 //SERVICIO
 $router->post('/servicio/cargapuntos', ['uses'=>'BolsasPuntoController@cargapuntos']);
