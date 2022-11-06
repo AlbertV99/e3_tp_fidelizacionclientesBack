@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
+use App\Jobs\ActualizarPuntosVencidos;
 
 class Kernel extends ConsoleKernel
 {
@@ -22,8 +23,7 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
-    {
-        //
+    protected function schedule(Schedule $schedule){
+        $schedule->job(new ActualizarPuntosVencidos)->everyMinute();
     }
 }

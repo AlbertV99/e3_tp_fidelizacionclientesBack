@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\UsoPuntoCab;
 use App\Models\UsoPuntoDet;
+use App\Models\concepto_punto;
+use App\Models\bolsas_punto;
 use Illuminate\Http\Request;
 
 class UsoPuntoCabController extends Controller
@@ -32,22 +34,52 @@ class UsoPuntoCabController extends Controller
     public function nuevo(Request $peticion){
         try {
             $totalPuntaje = 0;
+
             $campos = $this->validate($peticion,[
                 'id_cliente'=>'required|integer',
                 'id_concepto_punto'=>'required|integer',
             ]);
             $campos["fecha"] = date("Y-m-d");
-            $campos["puntaje_utilizado"] = 0;
-            $usoPunto = UsoPuntoCab::create($campos);
+            $concepto_punto = concepto_punto::select("concepto_punto.puntos_requeridos")->where("id",$campos["id_concepto_punto"])->first();
+            $valor_concepto = $concepto_punto->puntos_requeridos;
+            $campos["puntaje_utilizado"] = $valor_concepto;
 
-            foreach ($peticion->get("detalle") as $key => $value) {
-                $totalPuntaje+=$value["puntaje_utilizado"];
-                $rDetalle = new UsoPuntoDet($value);
-                $usoPunto->detalle()->save($rDetalle);
+            $cant_puntos = bolsas_punto::where("id_cliente",$campos["id_cliente"])->sum("puntos_saldo");
+
+            if($cant_puntos < $valor_concepto){
+                throw new \Exception("No se tiene la cantidad de puntos necesarias para poder comprar el concepto", 1);
             }
-            $usoPuntoUpd = UsoPuntoCab::find($usoPunto["id"]);
-            $usoPuntoUpd->update(["puntaje_utilizado"=>$totalPuntaje]);
-            return ["cod"=>"00","msg"=>"todo correcto"];
+
+
+            $usoPunto = UsoPuntoCab::create($campos);
+            $bolsas_cliente = bolsas_punto::where("id_cliente",$campos["id_cliente"])->get();
+            $puntos_utilizados = 0;
+            $saldo_utilizado;
+            $detalle = [];
+            foreach ($bolsas_cliente as $key => $value) {
+                $puntos_utilizados+= intval($value->puntos_saldo);
+
+                if(intval($puntos_utilizados) < intval($valor_concepto)){
+                    $detalle[]= New UsoPuntoDet([
+                        "id_bolsa"=>$value->id,
+                        "puntaje_utilizado"=>$value->puntos_saldo,
+                    ]);
+                    $value->update(["puntos_saldo"=>0]);
+                }else{
+                    $saldo_utilizado = $puntos_utilizados - $valor_concepto;
+                    $detalle[]= New UsoPuntoDet([
+                        "id_bolsa"=>$value->id,
+                        "puntaje_utilizado"=>$saldo_utilizado,
+                    ]);
+                    $value->update(["puntos_saldo"=>$saldo_utilizado]);
+                }
+
+            }
+
+            $usoPunto->detalle()->saveMany($detalle);
+            
+
+            return ["cod"=>"00","msg"=>"todo correcto","detalle"=>$bolsas_cliente];
         } catch (\Illuminate\Validation\ValidationException $e){
             return ["cod"=>"06","msg"=>"Error al insertar los datos","errores"=>[$e->errors() ]];
         }
