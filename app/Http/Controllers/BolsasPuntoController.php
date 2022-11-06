@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\bolsas_punto;
 use Illuminate\Http\Request;
 use App\Models\cliente;
-use App\Http\Controllers\DB;
-use DB;
+use  App\Http\Controllers\ReglasPuntoController;
 
 class BolsasPuntoController extends Controller
 {
@@ -99,6 +98,7 @@ class BolsasPuntoController extends Controller
         }
     }
 
+
     public function listarrango($inferior = 0,$superior = 0){
         $c_reg_panel = env('CANT_VALORES_PANEL');
         $c_paginas = ceil(bolsas_punto::count()/$c_reg_panel);
@@ -115,6 +115,31 @@ class BolsasPuntoController extends Controller
         "pagina_actual"=>$pag,
         "cantidad_paginas"=>$c_paginas,
         "datos"=>$query->get()];
+    }
+
+
+    public function cargapuntos (Request $peticion){
+        try {
+            $puntos = (new ReglasPuntoController)-> devolverpunto($peticion -> input('monto_saldo'));
+            $nueva_bolsa = [
+                'id_cliente' => $peticion -> input('id_cliente'),
+                'fecha_asignacion'=> date("Y-m-d"),
+                'fecha_caducidad' => date("Y-m-d"),
+                'puntaje_asignado' => $puntos['puntaje_asignado'],
+                'puntaje_utilizado' => 0,
+                'puntos_saldo' => $puntos['puntaje_asignado'],
+                'monto_saldo' => $peticion -> input('monto_saldo')
+            ];
+            $bolsas_punto = bolsas_punto::create($nueva_bolsa);
+            return ["cod"=>"00","msg"=>"todo correcto"];
+        } catch (\Illuminate\Validation\ValidationException $e){
+            return ["cod"=>"06","msg"=>"Error al insertar los datos","errores"=>[$e->errors() ]];
+        }
+        catch (\Exception $e) {
+            return ["cod"=>"05","msg"=>"Error al insertar los datos","errores"=>[$e->getMessage() ]];
+            
+        }
+        
     }
 
     /**

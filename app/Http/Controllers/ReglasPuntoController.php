@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\reglas_punto;
 use Illuminate\Http\Request;
 
@@ -41,6 +40,9 @@ class ReglasPuntoController extends Controller
                 'limite_superior'=>'required|integer',
                 'monto_equivalencia'=>'required|integer'
             ]);
+            if($campos ['limite_inferior'] > $campos ['limite_superior'] ){
+                throw new Exception('Limite inferior debe ser menor al limite superior');
+            }
             $reglas_punto = reglas_punto::create($campos);
         } catch (\Illuminate\Validation\ValidationException $e){
             return ["cod"=>"06","msg"=>"Error al insertar los datos","errores"=>[$e->errors() ]];
@@ -65,6 +67,10 @@ class ReglasPuntoController extends Controller
                 'limite_superior'=>'required|integer',
                 'monto_equivalencia'=>'required|integer'
             ]);
+            if($campos ['limite_inferior'] > $campos ['limite_superior'] ){
+                throw new Exception('Limite inferior debe ser menor al limite superior');
+            }
+            
             $reglas_punto = reglas_punto::where("id",$id);
             $reglas_punto->update($campos);
             return ["cod"=>"00","msg"=>"todo correcto"];
@@ -88,6 +94,21 @@ class ReglasPuntoController extends Controller
         }
     }
 
+
+    public static function devolverpunto ($monto){
+        $monto_equivalente = reglas_punto::select("monto_equivalencia")
+        ->where("reglas_punto.limite_inferior" , '<=', $monto)
+        ->where("reglas_punto.limite_superior" , '>=', $monto)
+        ->first ();
+        $punto_retorno = intval($monto/intval($monto_equivalente -> monto_equivalencia));
+        
+
+
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "puntaje_asignado"=>$punto_retorno];
+
+    }
     /**
      * Display the specified resource.
      *
