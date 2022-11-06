@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\reglas_punto;
 use Illuminate\Http\Request;
 
@@ -98,8 +97,8 @@ class ReglasPuntoController extends Controller
 
     public static function devolverpunto ($monto){
         $monto_equivalente = reglas_punto::select("monto_equivalencia")
-        ->where("reglas_punto.limite_inferior" , '<', $monto)
-        ->where("reglas_punto.limite_superior" , '>', $monto)
+        ->where("reglas_punto.limite_inferior" , '<=', $monto)
+        ->where("reglas_punto.limite_superior" , '>=', $monto)
         ->first ();
         $punto_retorno = intval($monto/intval($monto_equivalente -> monto_equivalencia));
         
@@ -107,7 +106,7 @@ class ReglasPuntoController extends Controller
 
         return ["cod"=>"00",
         "msg"=>"todo correcto",
-        "puntaje asignado"=>$punto_retorno];
+        "puntaje_asignado"=>$punto_retorno];
 
     }
     /**

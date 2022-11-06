@@ -80,3 +80,9 @@ $router->delete('/eliminar/bolsaspunto/{id}', ['uses'=>'BolsasPuntoController@el
 //REPORTES
 $router->get('/reporte/bolsaspunto/inf/{inferior}[/sup/{superior}]', ['uses'=>'BolsasPuntoController@listarrango']);
 $router->get('/reporte/reglaspunto/{monto}', ['uses'=>'ReglasPuntoController@devolverpunto']);
+$router->get('/reporte/usopuntocab/cli/{id}', ['uses'=>'UsoPuntoCabController@listarusopuntoid']);
+$router->get('/reporte/usopuntocab/concep/{concepto}', ['uses'=>'UsoPuntoCabController@listarusopuntoconcepto']);
+$router->get('/reporte/usopuntocab/fech/{fecha}', ['uses'=>'UsoPuntoCabController@listarusopuntofecha']);
+
+//SERVICIO
+$router->post('/servicio/cargapuntos', ['uses'=>'BolsasPuntoController@cargapuntos']);

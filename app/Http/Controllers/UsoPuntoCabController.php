@@ -57,6 +57,42 @@ class UsoPuntoCabController extends Controller
     }
 
 
+    public function  listarusopuntoid($id){
+        $query = UsoPuntoCab::select("uso_punto_cab.id","uso_punto_cab.fecha","cliente.nombre","cliente.apellido","cliente.nro_doc","concepto_punto.descripcion","uso_punto_cab.puntaje_utilizado")
+        ->join("cliente","cliente.id","uso_punto_cab.id_cliente")
+        ->join("concepto_punto","concepto_punto.id","uso_punto_cab.id_concepto_punto")
+        ->where("cliente.id" , '=', $id);
+        
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "datos"=>$query->get()];
+    }
+
+    public function  listarusopuntoconcepto($concepto){
+
+       $query = UsoPuntoCab::select("uso_punto_cab.id","uso_punto_cab.fecha","cliente.nombre","cliente.apellido","cliente.nro_doc","concepto_punto.descripcion","uso_punto_cab.puntaje_utilizado")
+        ->join("cliente","cliente.id","uso_punto_cab.id_cliente")
+        ->join("concepto_punto","concepto_punto.id","uso_punto_cab.id_concepto_punto")
+        ->where("concepto_punto.descripcion" , 'like', "%".$concepto."%");
+
+        
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "datos"=>$query->get()];
+    }
+
+    public function  listarusopuntofecha($fecha){
+       $query = UsoPuntoCab::select("uso_punto_cab.id","uso_punto_cab.fecha","cliente.nombre","cliente.apellido","cliente.nro_doc","concepto_punto.descripcion","uso_punto_cab.puntaje_utilizado")
+        ->join("cliente","cliente.id","uso_punto_cab.id_cliente")
+        ->join("concepto_punto","concepto_punto.id","uso_punto_cab.id_concepto_punto")
+        ->where("uso_punto_cab.fecha" , '=', $fecha);
+
+        
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "datos"=>$query->get()];
+    }
+
 
     /**
      * Display a listing of the resource.
