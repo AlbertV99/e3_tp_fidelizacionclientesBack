@@ -27,7 +27,38 @@ class ClienteController extends Controller{
         "msg"=>"todo correcto",
         "datos"=>$query->get()];
     }
+    public function  listar_cliente_nombre($nombre){
+        $query = cliente::select("cliente.id","cliente.nombre","cliente.apellido", "cliente.mail","cliente.telefono","cliente.fecha_nacimiento","cliente.nro_doc","nacionalidad.nacionalidad","tipo_documento.tipo_doc")
+        ->join("nacionalidad","cliente.id_nacionalidad","nacionalidad.id")
+        ->join("tipo_documento","cliente.id_tipo_doc","tipo_documento.id")
+        ->where("cliente.nombre" , 'like', "%".$nombre."%");
+        
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "datos"=>$query->get()];
+    }
 
+    public function  listar_cliente_apellido($apellido){
+        $query = cliente::select("cliente.id","cliente.nombre","cliente.apellido", "cliente.mail","cliente.telefono","cliente.fecha_nacimiento","cliente.nro_doc","nacionalidad.nacionalidad","tipo_documento.tipo_doc")
+        ->join("nacionalidad","cliente.id_nacionalidad","nacionalidad.id")
+        ->join("tipo_documento","cliente.id_tipo_doc","tipo_documento.id")
+        ->where("cliente.apellido" , 'like', "%".$apellido."%");
+        
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "datos"=>$query->get()];
+    }
+
+    public function  listar_cliente_cumple($cumpleanos){
+        $query = cliente::select("cliente.id","cliente.nombre","cliente.apellido", "cliente.mail","cliente.telefono","cliente.fecha_nacimiento","cliente.nro_doc","nacionalidad.nacionalidad","tipo_documento.tipo_doc")
+        ->join("nacionalidad","cliente.id_nacionalidad","nacionalidad.id")
+        ->join("tipo_documento","cliente.id_tipo_doc","tipo_documento.id")
+        ->where("cliente.fecha_nacimiento" , '=', $cumpleanos);
+        
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "datos"=>$query->get()];
+    }
     public static function listarPanel($pag=0,$busqueda=""){
         $c_reg_panel = env('CANT_VALORES_PANEL');
         $c_paginas = ceil(cliente::count()/$c_reg_panel);

@@ -83,5 +83,8 @@ $router->get('/reporte/usopuntocab/concep/{concepto}', ['uses'=>'UsoPuntoCabCont
 $router->get('/reporte/usopuntocab/fech/{fecha}', ['uses'=>'UsoPuntoCabController@listarusopuntofecha']);
 $router->get('/reporte/bolsapuntos/{id}', ['uses'=>'BolsasPuntoController@listar_bolsa_punto_cliente']);
 $router->get('/reporte/cliente/{dias}', ['uses'=>'ClienteController@listar_cliente_vencido']);
+$router->get('/reporte/cliente/nombre/{nombre}', ['uses'=>'ClienteController@listar_cliente_nombre']);
+$router->get('/reporte/cliente/apellido/{apellido}', ['uses'=>'ClienteController@listar_cliente_apellido']);
+$router->get('/reporte/cliente/cumple/{cumpleanos}', ['uses'=>'ClienteController@listar_cliente_cumple']);
 //SERVICIO
 $router->post('/servicio/cargapuntos', ['uses'=>'BolsasPuntoController@cargapuntos']);
