@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\bolsas_punto;
 use Illuminate\Http\Request;
 use App\Models\cliente;
+use App\Models\reglas_punto;
 use  App\Http\Controllers\ReglasPuntoController;
 
 class BolsasPuntoController extends Controller
@@ -53,7 +54,7 @@ class BolsasPuntoController extends Controller
         }
         catch (\Exception $e) {
             return ["cod"=>"05","msg"=>"Error al insertar los datos","errores"=>[$e->getMessage() ]];
-            
+
         }
     }
 
@@ -121,10 +122,14 @@ class BolsasPuntoController extends Controller
     public function cargapuntos (Request $peticion){
         try {
             $puntos = (new ReglasPuntoController)-> devolverpunto($peticion -> input('monto_saldo'));
+            $dias_vencimiento = reglas_punto::select('dias_vencimiento')
+            ->where("reglas_punto.limite_inferior" , '<=', $peticion -> input('monto_saldo'))
+            ->where("reglas_punto.limite_superior" , '>=', $peticion -> input('monto_saldo'))
+            ->first()->dias_vencimiento;
             $nueva_bolsa = [
                 'id_cliente' => $peticion -> input('id_cliente'),
                 'fecha_asignacion'=> date("Y-m-d"),
-                'fecha_caducidad' => date("Y-m-d"),
+                'fecha_caducidad' => date("Y-m-d", strtotime(date("Y-m-d"). ' +'.$dias_vencimiento.' days')),
                 'puntaje_asignado' => $puntos['puntaje_asignado'],
                 'puntaje_utilizado' => 0,
                 'puntos_saldo' => $puntos['puntaje_asignado'],
@@ -137,9 +142,9 @@ class BolsasPuntoController extends Controller
         }
         catch (\Exception $e) {
             return ["cod"=>"05","msg"=>"Error al insertar los datos","errores"=>[$e->getMessage() ]];
-            
+
         }
-        
+
     }
 
     /**

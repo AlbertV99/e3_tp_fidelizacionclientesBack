@@ -11,7 +11,8 @@ class reglas_punto extends Model{
     protected $fillable =[
         'limite_inferior',
         'limite_superior',
-        'monto_equivalencia'
+        'monto_equivalencia',
+        'dias_vencimiento'
     ];
 
 }

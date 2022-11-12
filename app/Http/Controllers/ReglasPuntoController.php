@@ -17,7 +17,7 @@ class ReglasPuntoController extends Controller
         $c_reg_panel = env('CANT_VALORES_PANEL');
         $c_paginas = ceil(reglas_punto::count()/$c_reg_panel);
         $salto = $pag*$c_reg_panel;
-        $query = reglas_punto::select("reglas_punto.id","reglas_punto.limite_inferior","reglas_punto.limite_superior","reglas_punto.monto_equivalencia");
+        $query = reglas_punto::select("reglas_punto.id","reglas_punto.limite_inferior","reglas_punto.limite_superior","reglas_punto.monto_equivalencia","dias_vencimiento");
 
         return ["cod"=>"00",
         "msg"=>"todo correcto",
@@ -38,7 +38,8 @@ class ReglasPuntoController extends Controller
             $campos = $this->validate($peticion,[
                 'limite_inferior'=>'required|integer',
                 'limite_superior'=>'required|integer',
-                'monto_equivalencia'=>'required|integer'
+                'monto_equivalencia'=>'required|integer',
+                'dias_vencimiento'=>'required|integer'
             ]);
             if($campos ['limite_inferior'] > $campos ['limite_superior'] ){
                 throw new Exception('Limite inferior debe ser menor al limite superior');
@@ -70,7 +71,7 @@ class ReglasPuntoController extends Controller
             if($campos ['limite_inferior'] > $campos ['limite_superior'] ){
                 throw new Exception('Limite inferior debe ser menor al limite superior');
             }
-            
+
             $reglas_punto = reglas_punto::where("id",$id);
             $reglas_punto->update($campos);
             return ["cod"=>"00","msg"=>"todo correcto"];
@@ -101,7 +102,7 @@ class ReglasPuntoController extends Controller
         ->where("reglas_punto.limite_superior" , '>=', $monto)
         ->first ();
         $punto_retorno = intval($monto/intval($monto_equivalente -> monto_equivalencia));
-        
+
 
 
         return ["cod"=>"00",

@@ -52,7 +52,7 @@ class UsoPuntoCabController extends Controller
 
 
             $usoPunto = UsoPuntoCab::create($campos);
-            $bolsas_cliente = bolsas_punto::where("id_cliente",$campos["id_cliente"])->get();
+            $bolsas_cliente = bolsas_punto::where("id_cliente",$campos["id_cliente"])->orderByDesc('fecha_caducidad')->get();
             $puntos_utilizados = 0;
             $saldo_utilizado;
             $detalle = [];
@@ -77,7 +77,7 @@ class UsoPuntoCabController extends Controller
             }
 
             $usoPunto->detalle()->saveMany($detalle);
-            
+
 
             return ["cod"=>"00","msg"=>"todo correcto","detalle"=>$bolsas_cliente];
         } catch (\Illuminate\Validation\ValidationException $e){
@@ -94,7 +94,7 @@ class UsoPuntoCabController extends Controller
         ->join("cliente","cliente.id","uso_punto_cab.id_cliente")
         ->join("concepto_punto","concepto_punto.id","uso_punto_cab.id_concepto_punto")
         ->where("cliente.id" , '=', $id);
-        
+
         return ["cod"=>"00",
         "msg"=>"todo correcto",
         "datos"=>$query->get()];
@@ -107,7 +107,7 @@ class UsoPuntoCabController extends Controller
         ->join("concepto_punto","concepto_punto.id","uso_punto_cab.id_concepto_punto")
         ->where("concepto_punto.descripcion" , 'like', "%".$concepto."%");
 
-        
+
         return ["cod"=>"00",
         "msg"=>"todo correcto",
         "datos"=>$query->get()];
@@ -119,7 +119,7 @@ class UsoPuntoCabController extends Controller
         ->join("concepto_punto","concepto_punto.id","uso_punto_cab.id_concepto_punto")
         ->where("uso_punto_cab.fecha" , '=', $fecha);
 
-        
+
         return ["cod"=>"00",
         "msg"=>"todo correcto",
         "datos"=>$query->get()];
