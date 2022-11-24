@@ -25,7 +25,7 @@ class BolsasPuntoController extends Controller
         "msg"=>"todo correcto",
         "datos"=>$query->get()];
     }
-    public function  listar_bolsa_punto_rango($rango_inferior, $rango_superior){
+    public function  listar_bolsa_punto_rango($rango_inferior = 0, $rango_superior = 0){
         $query = bolsas_punto::select("bolsas_punto.id","cliente.nombre","cliente.apellido","cliente.nro_doc", "bolsas_punto.fecha_asignacion", "bolsas_punto.fecha_caducidad", "bolsas_punto.puntaje_asignado", "bolsas_punto.puntaje_utilizado", "bolsas_punto.puntos_saldo", "bolsas_punto.monto_saldo")
         ->join("cliente","cliente.id", "bolsas_punto.id_cliente")
         ->where("bolsas_punto.puntos_saldo" , '>=', $rango_inferior)

@@ -76,12 +76,12 @@ $router->delete('/eliminar/bolsaspunto/{id}', ['uses'=>'BolsasPuntoController@el
 
 
 //REPORTES
-$router->get('/reporte/bolsaspunto/inf/{rango_inferior}[/sup/{rango_superior}]', ['uses'=>'BolsasPuntoController@listar_bolsa_punto_rango']);
+$router->get('/reporte/bolsaspunto/inf/{rango_inferior}/sup/{rango_superior}', ['uses'=>'BolsasPuntoController@listar_bolsa_punto_rango']);
+$router->get('/reporte/bolsapuntos/{id}', ['uses'=>'BolsasPuntoController@listar_bolsa_punto_cliente']);
 $router->get('/reporte/reglaspunto/{monto}', ['uses'=>'ReglasPuntoController@devolverpunto']);
 $router->get('/reporte/usopuntocab/cli/{id}', ['uses'=>'UsoPuntoCabController@listarusopuntoid']);
 $router->get('/reporte/usopuntocab/concep/{concepto}', ['uses'=>'UsoPuntoCabController@listarusopuntoconcepto']);
 $router->get('/reporte/usopuntocab/fech/{fecha}', ['uses'=>'UsoPuntoCabController@listarusopuntofecha']);
-$router->get('/reporte/bolsapuntos/{id}', ['uses'=>'BolsasPuntoController@listar_bolsa_punto_cliente']);
 $router->get('/reporte/cliente/{dias}', ['uses'=>'ClienteController@listar_cliente_vencido']);
 $router->get('/reporte/cliente/nombre/{nombre}', ['uses'=>'ClienteController@listar_cliente_nombre']);
 $router->get('/reporte/cliente/apellido/{apellido}', ['uses'=>'ClienteController@listar_cliente_apellido']);
