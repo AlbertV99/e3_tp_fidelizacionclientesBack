@@ -34,30 +34,44 @@ $router->get('/listar/bolsaspunto/{pag}', ['uses'=>'BolsasPuntoController@listar
 
 $router->get('/listar/usopunto/{pag}', ['uses'=>'UsoPuntoCabController@listarPanel']);
 
+$router->get('/listar/reglasorteo/{pag}', ['uses'=>'ReglaSorteoController@listarPanel']);
+
 
 
 
 //INSERCION DE DATOS
 $router->post('/nuevo/cliente', ['uses'=>'ClienteController@nuevo']);
+
 $router->post('/nuevo/punto', ['uses'=>'ConceptoPuntoController@nuevo']);
+
 $router->post('/nuevo/vencimientopunto', ['uses'=>'PuntosVencimientosController@nuevo']);
+
 $router->post('/nuevo/bolsa', function () use ($router) {
     return "NUEVA BOLSA";
 });
 $router->post('/nuevo/reglaspunto', ['uses'=>'ReglasPuntoController@nuevo']);
 
 $router->post('/nuevo/bolsaspunto', ['uses'=>'BolsasPuntoController@nuevo']);
+
 $router->post('/nuevo/usopunto', ['uses'=>'UsoPuntoCabController@nuevo']);
+
+$router->post('/nuevo/reglasorteo', ['uses'=>'ReglaSorteoController@nuevo']);
 
 //MODIFICACION DE DATOS
 $router->put('/modif/cliente/{id}', ['uses'=>'ClienteController@modificar']);
+
 $router->put('/modif/punto/{id}', ['uses'=>'ConceptoPuntoController@modificar']);
+
 $router->put('/modif/vencimientopunto/{id}', ['uses'=>'PuntosVencimientosController@modificar']);
+
 $router->put('/modif/bolsa', function () use ($router) {
     return "MODIF BOLSA";
 });
 $router->put('/modif/reglaspunto/{id}', ['uses'=>'ReglasPuntoController@modificar']);
+
 $router->put('/modif/bolsaspunto/{id}', ['uses'=>'BolsasPuntoController@modificar']);
+
+$router->put('/modif/reglasorteo/{id}', ['uses'=>'ReglaSorteoController@modificar']);
 
 
 
@@ -66,13 +80,19 @@ $router->put('/modif/bolsaspunto/{id}', ['uses'=>'BolsasPuntoController@modifica
 
 //ELIMINACION DE DATOS
 $router->delete('/eliminar/cliente/{id}', ['uses'=>'ClienteController@eliminar']);
+
 $router->delete('/eliminar/punto/{id}', ['uses'=>'ConceptoPuntoController@eliminar']);
+
 $router->delete('/eliminar/vencimientopunto/{id}', ['uses'=>'PuntosVencimientosController@eliminar']);
+
 $router->delete('/eliminar/bolsa', function () use ($router) {
     return "ELIMINAR BOLSA";
 });
 $router->delete('/eliminar/reglaspunto/{id}', ['uses'=>'ReglasPuntoController@eliminar']);
+
 $router->delete('/eliminar/bolsaspunto/{id}', ['uses'=>'BolsasPuntoController@eliminar']);
+
+$router->delete('/eliminar/reglasorteo/{id}', ['uses'=>'ReglaSorteoController@eliminar']);
 
 
 //REPORTES
@@ -86,5 +106,6 @@ $router->get('/reporte/cliente/{dias}', ['uses'=>'ClienteController@listar_clien
 $router->get('/reporte/cliente/nombre/{nombre}', ['uses'=>'ClienteController@listar_cliente_nombre']);
 $router->get('/reporte/cliente/apellido/{apellido}', ['uses'=>'ClienteController@listar_cliente_apellido']);
 $router->get('/reporte/cliente/cumple/{cumpleanos}', ['uses'=>'ClienteController@listar_cliente_cumple']);
+
 //SERVICIO
 $router->post('/servicio/cargapuntos', ['uses'=>'BolsasPuntoController@cargapuntos']);
