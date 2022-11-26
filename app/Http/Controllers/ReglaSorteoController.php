@@ -28,7 +28,7 @@ class ReglaSorteoController extends Controller{
             $campos = $this->validate($peticion,[
                 'limite_inferior'=>'required|date',
                 'limite_superior'=>'required|date',
-                'descripcion'=>'required|integer'
+                'descripcion'=>'required|integer',
                 'fecha_sorteo'=>'required|integer'
             ]);
             $puntos_vencimientos = ReglaSorteo::where("id",$id);
@@ -53,7 +53,8 @@ class ReglaSorteoController extends Controller{
                 'limite_inferior'=>'required|integer',
                 'limite_superior'=>'required|integer',
                 'descripcion'=>'required|string',
-                'fecha_sorteo'=>'required|date'
+                'fecha_sorteo'=>'required|date',
+                'id_cliente_ganador'=>'required|integer'
             ]);
             if($campos ['limite_inferior'] > $campos ['limite_superior'] ){
                 throw new Exception('Limite inferior debe ser menor al limite superior');
@@ -63,7 +64,7 @@ class ReglaSorteoController extends Controller{
             return ["cod"=>"06","msg"=>"Error al insertar los datos","errores"=>[$e->errors() ]];
         }
         catch (\Exception $e) {
-            return ["cod"=>"05","msg"=>"Error al insertar los datos"];
+            return ["cod"=>"05","msg"=>"Error al insertar los datos", "errores"=>[$e->getMessage() ], "campos"=>$campos];
         }
         return ["cod"=>"00","msg"=>"todo correcto"];
 

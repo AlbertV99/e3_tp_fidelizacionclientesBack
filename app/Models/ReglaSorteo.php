@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class ReglaSorteo extends Model{
-    public $table = 'cliente';
+    public $table = 'regla_sorteo';
 
     protected $fillable =[
         'descripcion',
