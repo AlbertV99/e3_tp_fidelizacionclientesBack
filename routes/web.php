@@ -36,7 +36,9 @@ $router->get('/listar/usopunto/{pag}', ['uses'=>'UsoPuntoCabController@listarPan
 
 $router->get('/listar/reglasorteo/{pag}', ['uses'=>'ReglaSorteoController@listarPanel']);
 
+$router->get('/listar/usuario/nombre/{nom}/pass/{pass}', ['uses'=>'UsuarioController@validarUsuarioUnico']);
 
+//$router->get('/listar/usuario', ['uses'=>'UsuarioController@validarUsuarioUnico']);
 
 
 //INSERCION DE DATOS
