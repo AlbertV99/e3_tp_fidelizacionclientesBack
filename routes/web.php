@@ -109,3 +109,7 @@ $router->get('/reporte/cliente/cumple/{cumpleanos}', ['uses'=>'ClienteController
 
 //SERVICIO
 $router->post('/servicio/cargapuntos', ['uses'=>'BolsasPuntoController@cargapuntos']);
+
+$router->get('/servicio/mail',function () {
+    return view('mailtest', ['name' => 'Albert']);
+});

@@ -91,6 +91,7 @@ $app->middleware([
 | totally optional, so you are not required to uncomment this line.
 |
 */
+$app->register(Illuminate\Mail\MailServiceProvider::class);
 
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
@@ -112,5 +113,24 @@ $app->router->group([
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
+
+
+/*
+
+CONFIGURACION DE ENVIO DE MAILS
+
+*/
+
+$app->configure('mail');
+
+$app->alias('mail.manager', Illuminate\Mail\MailManager::class);
+$app->alias('mail.manager', Illuminate\Contracts\Mail\Factory::class);
+
+$app->alias('mailer', Illuminate\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
+
+
+
 
 return $app;
