@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 
-class Mail extends Controller{
-    public function mail() {
-        $data = array('name'=>"Arunkumar");
-        Mail::send('mail', $data, function($message) {
-            $message->to('easyselva@gmail.com', 'Arunkumar')->subject('Test Mail from Selva');
-            $message->from('selva@snamservices.com','Selvakumar');
+class Email extends Controller{
+    public static function mail($view,$correo,$asunto,$datos) {
+                    //VIEW , DATOSPVIEW , CALLBACK
+        Mail::send($view, $datos, function($message) {
+            $message->to($correo, 'Cliente')->subject('Test Mail from Selva');
+            $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
         });
         echo "Email Sent. Check your inbox.";
     }

@@ -26,6 +26,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule){
         $schedule->job(new ActualizarPuntosVencidos)->everyMinute();
-        $schedule->job(new AlertarClientes)->everyDay();
+        $schedule->job(new AlertarClientes)->daily();
     }
 }

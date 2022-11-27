@@ -113,3 +113,7 @@ $router->post('/servicio/cargapuntos', ['uses'=>'BolsasPuntoController@cargapunt
 $router->get('/servicio/mail',function () {
     return view('mailtest', ['name' => 'Albert']);
 });
+$router->get('/servicio/enviarmail',function () {
+    App\Http\Controllers\Mail::mail("mailtest","yannyhemmings@fpuna.edu.py","prueba mail",["name"=>""])
+    return ["msg"=>"enviado"];
+});
