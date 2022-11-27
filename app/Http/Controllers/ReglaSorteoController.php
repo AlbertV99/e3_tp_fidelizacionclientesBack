@@ -23,6 +23,17 @@ class ReglaSorteoController extends Controller{
 
     }
 
+
+    public static function obtener_regla_sorteo($id){
+        $query = ReglaSorteo::select("regla_sorteo.id","regla_sorteo.limite_inferior","regla_sorteo.limite_superior","regla_sorteo.fecha_sorteo","regla_sorteo.descripcion")
+        ->where("regla_sorteo.id","=",$id);
+
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "datos"=>$query->get()];
+
+    }
+
     public function modificar(Request $peticion,$id){
         try {
             $campos = $this->validate($peticion,[

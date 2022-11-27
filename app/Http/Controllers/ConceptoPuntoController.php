@@ -24,6 +24,15 @@ class ConceptoPuntoController extends Controller
         "datos"=>$query->get()];
     }
 
+    public static function obtener_concepto_punto($id){
+       $query = concepto_punto::select("concepto_punto.id","concepto_punto.descripcion", "concepto_punto.puntos_requeridos")
+       ->where("concepto_punto.id","=",$id);
+       
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "datos"=>$query->get()];
+    }
+
 
 
     public function nuevo(Request $peticion){

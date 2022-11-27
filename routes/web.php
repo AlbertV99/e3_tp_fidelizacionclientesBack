@@ -38,6 +38,19 @@ $router->get('/listar/reglasorteo/{pag}', ['uses'=>'ReglaSorteoController@listar
 
 $router->get('/listar/usuario/nombre/{nom}/pass/{pass}', ['uses'=>'UsuarioController@validarUsuarioUnico']);
 
+////LISTAR DATOS
+$router->get('/obtener/cliente/{id}', ['uses'=>'ClienteController@obtener_cliente']);
+
+$router->get('/obtener/conceptopuntos/{id}', ['uses'=>'ConceptoPuntoController@obtener_concepto_punto']);
+
+$router->get('/obtener/vencimientopuntos/{id}', ['uses'=>'PuntosVencimientosController@obtener_vencimiento_punto']);
+
+$router->get('/obtener/reglaspunto/{id}', ['uses'=>'ReglasPuntoController@obtener_regla_punto']);
+
+$router->get('/obtener/reglasorteo/{id}', ['uses'=>'ReglaSorteoController@obtener_regla_sorteo']);
+
+
+
 //$router->get('/listar/usuario', ['uses'=>'UsuarioController@validarUsuarioUnico']);
 
 
@@ -117,6 +130,6 @@ $router->get('/servicio/mail',function () {
     // return view('ganador', ['name' => 'Tio Cosa', 'descripcion' =>'Ghost']);
 });
 $router->get('/servicio/enviarmail',function () {
-    App\Http\Controllers\Mail::mail("mailtest","yannyhemmings@fpuna.edu.py","prueba mail",["name"=>""])
+    App\Http\Controllers\Mail::mail("mailtest","yannyhemmings@fpuna.edu.py","prueba mail",["name"=>""]);
     return ["msg"=>"enviado"];
 });

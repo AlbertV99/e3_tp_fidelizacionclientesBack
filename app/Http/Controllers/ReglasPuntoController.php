@@ -26,7 +26,16 @@ class ReglasPuntoController extends Controller
         "datos"=>$query->get()];
 
     }
+    
+    public static function obtener_regla_punto($id){
+        $query = reglas_punto::select("reglas_punto.id","reglas_punto.limite_inferior","reglas_punto.limite_superior","reglas_punto.monto_equivalencia","dias_vencimiento")
+        ->where("reglas_punto.id","=",$id);
 
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "datos"=>$query->get()];
+
+    }
     /**
      * Show the form for creating a new resource.
      *

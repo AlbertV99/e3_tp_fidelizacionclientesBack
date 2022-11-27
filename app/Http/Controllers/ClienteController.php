@@ -27,6 +27,15 @@ class ClienteController extends Controller{
         "msg"=>"todo correcto",
         "datos"=>$query->get()];
     }
+    public function  obtener_cliente($id){
+        $query = cliente::select("cliente.id","cliente.nombre","cliente.apellido", "cliente.mail","cliente.telefono","cliente.fecha_nacimiento","cliente.nro_doc","cliente.id_nacionalidad","cliente.id_tipo_doc")
+       ->where("cliente.id" , '=', $id);
+        
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "datos"=>$query->get()];
+    }
+    
     public function  listar_cliente_nombre($nombre){
         $query = cliente::select("cliente.id","cliente.nombre","cliente.apellido", "cliente.mail","cliente.telefono","cliente.fecha_nacimiento","cliente.nro_doc","nacionalidad.nacionalidad","tipo_documento.tipo_doc")
         ->join("nacionalidad","cliente.id_nacionalidad","nacionalidad.id")

@@ -23,7 +23,18 @@ class PuntosVencimientosController extends Controller
         "cantidad_paginas"=>$c_paginas,
         "datos"=>$query->get()];
     }
+    public static function obtener_vencimiento_punto($id){
+        $query = puntos_vencimientos::select("puntos_vencimiento.id","puntos_vencimiento.fecha_inicio", "puntos_vencimiento.fecha_fin", "puntos_vencimiento.duracion")
+        ->where("puntos_vencimiento.id","=",$id);
 
+        /*User::select('users.nameUser', 'categories.nameCategory')
+                ->join('categories', 'users.idUser', '=', 'categories.user_id')
+                ->get();*/
+
+        return ["cod"=>"00",
+        "msg"=>"todo correcto",
+        "datos"=>$query->get()];
+    }
 
 
     public function nuevo(Request $peticion){
