@@ -36,7 +36,9 @@ $router->get('/listar/usopunto/{pag}', ['uses'=>'UsoPuntoCabController@listarPan
 
 $router->get('/listar/reglasorteo/{pag}', ['uses'=>'ReglaSorteoController@listarPanel']);
 
+$router->get('/listar/usuario/nombre/{nom}/pass/{pass}', ['uses'=>'UsuarioController@validarUsuarioUnico']);
 
+//$router->get('/listar/usuario', ['uses'=>'UsuarioController@validarUsuarioUnico']);
 
 
 //INSERCION DE DATOS
@@ -111,7 +113,8 @@ $router->get('/reporte/cliente/cumple/{cumpleanos}', ['uses'=>'ClienteController
 $router->post('/servicio/cargapuntos', ['uses'=>'BolsasPuntoController@cargapuntos']);
 
 $router->get('/servicio/mail',function () {
-    return view('mailtest', ['name' => 'Albert']);
+    return view('mailtest', ['name' => 'Tio Cosa', 'dias' =>'7']);
+    // return view('ganador', ['name' => 'Tio Cosa', 'descripcion' =>'Ghost']);
 });
 $router->get('/servicio/enviarmail',function () {
     App\Http\Controllers\Mail::mail("mailtest","yannyhemmings@fpuna.edu.py","prueba mail",["name"=>""])
