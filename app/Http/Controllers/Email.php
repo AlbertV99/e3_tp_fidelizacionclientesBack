@@ -10,7 +10,10 @@ class Email extends Controller{
         // $carta->to($correo);
         // $carta->to($correo);
                     //VIEW , DATOSPVIEW , CALLBACK
-        Mail::send($view, $datos,Email::crearFuncion($correo,$asunto) );
+        Mail::send($view, $datos, (function ($message) use ($correo,$asunto){
+            $message->to($correo, 'Cliente')->subject($asunto);
+            $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
+        }) );
 
         echo "Email Sent. Check your inbox.";
     }

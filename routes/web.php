@@ -1,4 +1,5 @@
 <?php
+use App\Models\bolsas_punto;
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
@@ -126,10 +127,25 @@ $router->get('/reporte/cliente/cumple/{cumpleanos}', ['uses'=>'ClienteController
 $router->post('/servicio/cargapuntos', ['uses'=>'BolsasPuntoController@cargapuntos']);
 
 $router->get('/servicio/mail',function () {
-    return view('mailtest', ['name' => 'Tio Cosa', 'dias' =>'7']);
+    $direcciones = [];
+    $dias = 7;
+    $fecha_actual= date("Y-m-d");
+    $calculo_fecha = date("Y-m-d",strtotime($fecha_actual."+ ".$dias." days"));
+    $query = bolsas_punto::select("bolsas_punto.id","cliente.nombre","cliente.apellido","cliente.mail")
+    ->join("cliente","cliente.id", "bolsas_punto.id_cliente")
+    -> where("fecha_caducidad", $calculo_fecha);
+    $bolsa_vencer = $query ->get();
+    foreach ($bolsa_vencer as $key => $value) {
+        $email = ($value->mail);
+        $nombre = ($value->nombre)." ".($value->apellido);
+        $direcciones[] = [$email, $nombre];
+        App\Http\Controllers\Email::mail("mailtest", $email, "Alerta de puntos a vencer",["name"=>$nombre, "days"=>$dias]);
+
+    }
+    return response()->json($direcciones);
     // return view('ganador', ['name' => 'Tio Cosa', 'descripcion' =>'Ghost']);
 });
 $router->get('/servicio/enviarmail',function () {
-    App\Http\Controllers\Mail::mail("mailtest","yannyhemmings@fpuna.edu.py","prueba mail",["name"=>""]);
+    App\Http\Controllers\Email::mail("mailtest","yannyhemmings@fpuna.edu.py","prueba mail",["name"=>"Coso", "days"=>"7"]);
     return ["msg"=>"enviado"];
 });
