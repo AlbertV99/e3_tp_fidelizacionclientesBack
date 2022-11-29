@@ -26,7 +26,7 @@ class ReglasPuntoController extends Controller
         "datos"=>$query->get()];
 
     }
-    
+
     public static function obtener_regla_punto($id){
         $query = reglas_punto::select("reglas_punto.id","reglas_punto.limite_inferior","reglas_punto.limite_superior","reglas_punto.monto_equivalencia","dias_vencimiento")
         ->where("reglas_punto.id","=",$id);
@@ -36,6 +36,7 @@ class ReglasPuntoController extends Controller
         "datos"=>$query->get()];
 
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -58,7 +59,7 @@ class ReglasPuntoController extends Controller
             return ["cod"=>"06","msg"=>"Error al insertar los datos","errores"=>[$e->errors() ]];
         }
         catch (\Exception $e) {
-            return ["cod"=>"05","msg"=>"Error al insertar los datos"];
+            return ["cod"=>"05","msg"=>"Error al insertar los datos","errores"=>[$e->getMessage() ]];
         }
         return ["cod"=>"00","msg"=>"todo correcto"];
 
