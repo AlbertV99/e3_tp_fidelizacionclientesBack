@@ -65,7 +65,6 @@ class ReglaSorteoController extends Controller{
                 'limite_superior'=>'required|integer',
                 'descripcion'=>'required|string',
                 'fecha_sorteo'=>'required|date',
-                'id_cliente_ganador'=>'required|integer'
             ]);
             if($campos ['limite_inferior'] > $campos ['limite_superior'] ){
                 throw new Exception('Limite inferior debe ser menor al limite superior');
